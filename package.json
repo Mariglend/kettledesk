@@ -1,0 +1,68 @@
+{
+  "name": "kettledesk",
+  "version": "2.1.0",
+  "description": "Desktop management app for personal trainers and small studios: clients, Google Calendar, packages, payments and workout programmes",
+  "keywords": [
+    "personal-trainer",
+    "gym",
+    "fitness",
+    "electron",
+    "google-calendar",
+    "crm",
+    "offline-first",
+    "i18n"
+  ],
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win portable",
+    "build-installer": "electron-builder --win nsis",
+    "i18n:check": "node scripts/check-i18n.js"
+  },
+  "author": "Mariglend Allushi",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Mariglend/kettledesk.git"
+  },
+  "homepage": "https://github.com/Mariglend/kettledesk#readme",
+  "bugs": {
+    "url": "https://github.com/Mariglend/kettledesk/issues"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "io.github.mariglend.kettledesk",
+    "productName": "Kettledesk",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "css/**/*",
+      "js/**/*",
+      "vendor/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "Kettledesk.exe",
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "Kettledesk.exe"
+    },
+    "npmRebuild": false
+  }
+}

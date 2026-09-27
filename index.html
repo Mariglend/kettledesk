@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src https://www.googleapis.com https://oauth2.googleapis.com">
+<title>Kettledesk</title>
+<link rel="stylesheet" href="vendor/fonts.css">
+<link rel="stylesheet" href="vendor/tabler-icons.min.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+
+<!-- Configurazione iniziale -->
+<section class="gate" id="gate-setup">
+  <label class="gate-lang"><i class="ti ti-world"></i><select data-lang-select aria-label="Language" onchange="setLang(this.value)"></select></label>
+  <div class="gate-inner">
+    <div class="gate-brand">
+      <div class="mono" data-brand-mono>KD</div>
+      <h1 data-i18n>Configurazione del gestionale</h1>
+      <p data-i18n>Serve una sola volta: collega l'app al progetto Google che gestisce l'accesso e i calendari.</p>
+    </div>
+    <div class="gate-card">
+      <h2 data-i18n>Credenziali Google</h2>
+      <p class="lead" data-i18n>Le trovi in Google Cloud Console, alla voce Credentials. Le istruzioni complete sono nel README.</p>
+      <ol class="gate-steps">
+        <li><span data-i18n>Crea un client OAuth di tipo <b>Desktop app</b> e abilita <b>Google Calendar API</b>.</span></li>
+        <li><span data-i18n>In <b>OAuth consent screen → Test users</b> aggiungi le email dell'amministratore e dei trainer.</span></li>
+        <li><span data-i18n>Incolla qui sotto il Client ID.</span></li>
+      </ol>
+      <div class="field"><label for="setup-id">Client ID</label><input class="in" id="setup-id" placeholder="123-abc.apps.googleusercontent.com" autocomplete="off"></div>
+      <div class="field"><label for="setup-secret">Client Secret</label><input class="in" id="setup-secret" placeholder="Solo per client di tipo Web application" data-i18n-ph="Solo per client di tipo Web application" autocomplete="off"><small data-i18n>Lascialo vuoto se il client è di tipo Desktop app.</small></div>
+      <div id="setup-err" class="note red hidden"></div>
+      <button class="btn btn-primary btn-google" onclick="Auth.saveSetup()"><i class="ti ti-arrow-right"></i> <span data-i18n>Salva e continua</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- Accesso -->
+<section class="gate" id="gate-login">
+  <label class="gate-lang"><i class="ti ti-world"></i><select data-lang-select aria-label="Language" onchange="setLang(this.value)"></select></label>
+  <div class="gate-inner">
+    <div class="gate-brand">
+      <div class="mono" data-brand-mono>KD</div>
+      <h1 data-brand-name>Kettledesk</h1>
+      <p data-i18n>Area riservata allo staff. Accedi con l'account Google autorizzato dall'amministratore.</p>
+    </div>
+    <div class="gate-card">
+      <h2 data-i18n>Accedi</h2>
+      <p class="lead" data-i18n>Si aprirà il browser per confermare l'accesso, poi tornerai qui automaticamente.</p>
+      <button class="btn btn-primary btn-google" id="login-btn" onclick="Auth.login()"><i class="ti ti-brand-google"></i> <span data-i18n>Accedi con Google</span></button>
+      <div id="login-err" class="note red hidden" style="margin:16px 0 0"></div>
+      <div class="gate-foot"><span data-i18n>I dati restano cifrati su questo computer.</span><button onclick="Auth.resetSetup()" data-i18n>Cambia Client ID</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- App -->
+<div id="app">
+  <aside class="side">
+    <div class="side-brand"><div class="mono" data-brand-mono>KD</div><div class="name" data-brand-name>Kettledesk</div></div>
+    <nav class="side-nav" id="side-nav"></nav>
+    <div class="side-foot">
+      <div class="sync" id="sync"><span class="dot"></span><span id="sync-text"></span></div>
+      <div class="me">
+        <div class="av sm" id="me-av"></div>
+        <div class="who"><b id="me-name"></b><span id="me-role"></span></div>
+        <button class="icon-btn" data-i18n-title="Lingua" onclick="langDialog()"><i class="ti ti-world"></i></button>
+        <button class="icon-btn" data-i18n-title="Esci" onclick="Auth.logout()"><i class="ti ti-logout"></i></button>
+      </div>
+    </div>
+  </aside>
+  <main class="main">
+    <section class="page" id="page-dashboard"></section>
+    <section class="page" id="page-calendario"></section>
+    <section class="page" id="page-clienti"></section>
+    <section class="page" id="page-cliente"></section>
+    <section class="page" id="page-statistiche"></section>
+    <section class="page" id="page-incassi"></section>
+    <section class="page" id="page-team"></section>
+    <section class="page" id="page-impostazioni"></section>
+  </main>
+</div>
+
+<div id="dlg-root"></div>
+<div id="toast"></div>
+<div id="print-area"></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/i18n/en.js"></script>
+<script src="js/i18n/de.js"></script>
+<script src="js/i18n/fr.js"></script>
+<script src="js/i18n/es.js"></script>
+<script src="js/i18n/pt.js"></script>
+<script src="js/i18n/zh.js"></script>
+<script src="js/i18n/sq.js"></script>
+<script src="js/core.js"></script>
+<script src="js/store.js"></script>
+<script src="js/google.js"></script>
+<script src="js/events.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/calendar.js"></script>
+<script src="js/clients.js"></script>
+<script src="js/money.js"></script>
+<script src="js/programs.js"></script>
+<script src="js/stats.js"></script>
+<script src="js/admin.js"></script>
+<script src="js/boot.js"></script>
+</body>
+</html>
